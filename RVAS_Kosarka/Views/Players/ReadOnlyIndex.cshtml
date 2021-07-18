@@ -1,0 +1,52 @@
+﻿@model List<RVAS_Kosarka.Models.Player>
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>All Players</h2>
+
+@if (!Model.Any())
+{
+    <p>We don't have any players yet. </p>
+}
+else
+{
+    <table class="table players table-dark table-striped table-bordered">
+        <thead>
+            <tr>
+                <th>Player</th>
+
+                <th>Height</th>
+                <th>Weight</th>
+                <th>Years</th>
+                <th>Club</th>
+                <th>Position</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>@item.Name</td>
+
+                    <td>@item.Height m</td>
+                    <td>@item.Weight kg</td>
+                    <td>@item.Years</td>
+                    <td>@item.Club.Name</td>
+                    <td>@item.Position.Name</td>
+
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+
+@section scripts
+{
+    <script>
+        $(document).ready(function () {
+            $('.players').DataTable();
+        });
+    </script>
+
+}

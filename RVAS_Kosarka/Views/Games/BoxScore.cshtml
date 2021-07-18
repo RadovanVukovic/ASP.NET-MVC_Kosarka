@@ -1,0 +1,40 @@
+﻿@model  ICollection<RVAS_Kosarka.Models.BoxScore>
+@{
+    ViewBag.Title = "BoxScore";
+}
+
+<h2>Box Score</h2>
+
+
+<table class="table  table-dark table-striped table-bordered">
+    <thead>
+        <tr>
+            <th>Player</th>
+            
+            <th>Points</th>
+
+            <th>Assissts</th>
+            <th>Rebounds</th>
+
+
+        </tr>
+    </thead>
+    <tbody>
+
+        @foreach(var item in Model)
+        {
+            <tr>
+                <td>@item.Player.Name</td>
+                
+                <td>@item.Points </td>
+
+                <td>@item.Assists</td>
+                <td>@item.Rebounds</td>
+
+            </tr>
+        }
+
+    </tbody>
+</table>
+
+

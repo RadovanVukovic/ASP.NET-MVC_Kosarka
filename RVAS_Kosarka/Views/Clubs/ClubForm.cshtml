@@ -1,0 +1,110 @@
+﻿@model RVAS_Kosarka.Models.Club
+
+@{
+    ViewBag.Title = "ClubForm";
+}
+
+<h2>New Club</h2>
+
+@using (Html.BeginForm(null, null, FormMethod.Post, new { id = "form" }))
+{
+    <div class="form-group">
+        @Html.LabelFor(c => c.Name)
+        @Html.TextBoxFor(c => c.Name, new { @class = "form-control", id = "name" })
+        @Html.ValidationMessageFor(c => c.Name)
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(c => c.Founded)
+        @Html.TextBoxFor(c => c.Founded, new { @class = "form-control", id = "founded" })
+        @Html.ValidationMessageFor(c => c.Founded)
+
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(c => c.City)
+        @Html.TextBoxFor(c => c.City, new { @class = "form-control", id = "city" })
+        @Html.ValidationMessageFor(c => c.City)
+
+    </div>
+
+
+
+    @Html.HiddenFor(c => c.Id, new { id = "id"}) //ovo je bitno da stavis da bi prosledio id
+    @Html.AntiForgeryToken()
+
+
+
+    if (Model.Id == 0)
+    {
+        <button type="button" class="btn-info btn btnCreateScript">
+            Save via API
+        </button>
+    }
+    else
+    {
+        <button type="button" class="btn-info btn btnEditScript" club-data-id="@Model.Id">
+            Save Edit via API
+        </button>
+    }
+
+}
+
+
+@section scripts{
+    <script>
+        $(document).ready(function () {
+            $("#form").on("click", ".btnCreateScript", function () {
+                var button = $(this);
+                var data = {};
+                data.Name = $('#name').val();
+                data.Founded = $('#founded').val();
+                data.City = $('#city').val();
+                
+
+                $.ajax({
+                    url: '../api/clubs',
+                    type: "POST",
+                    data: JSON.stringify(data),
+                    dataType: 'application/json',
+                    contentType: 'application/json; charset=utf-8',
+                    complete: function () {
+                        alert("New Club is added!");
+                    }
+                });
+            });
+        });
+    </script>
+
+    <script>
+        $(document).ready(function () {
+            $("#form").on("click", ".btnEditScript", function () {
+                var button = $(this);
+                var data = {};
+                var clubId = button.attr("club-data-id");
+
+                data.Id = clubId;
+                data.Name = $('#name').val();
+                data.Founded = $('#founded').val();
+                data.City = $('#city').val();
+                data.Id = $("#id").val();
+
+
+                $.ajax({
+                    url: '../../api/clubs/' + clubId,
+                    type: "PUT",
+                    data: JSON.stringify(data),
+                    dataType: 'application/json',
+                    contentType: 'application/json; charset=utf-8',
+                    complete: function () {
+                        alert("Existing Club is modified!");
+                    }
+                });
+            });
+        });
+    </script>
+
+
+    @Scripts.Render("~/bundles/jqueryval")
+}
+

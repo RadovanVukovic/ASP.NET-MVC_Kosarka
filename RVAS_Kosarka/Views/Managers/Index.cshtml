@@ -1,0 +1,66 @@
+﻿@model PagedList.IPagedList<RVAS_Kosarka.Models.Manager>
+@using PagedList.Mvc;
+<link href="~/Content/PagedList.css" rel="stylesheet" type="text/css" />
+
+<h2>All Managers</h2>
+<div style="margin-bottom:10px">
+    <button type="button" class="btn btn-secondary mr-3 mt-4">
+        @Html.ActionLink("Add New Manager", "New")
+    </button>
+</div>
+
+@if (!Model.Any())
+{
+    <p>We don't have any managers yet. </p>
+}
+else
+{
+
+    using (Html.BeginForm("Index", "Managers", FormMethod.Get))
+    {
+        <p>
+            Find by name: @Html.TextBox("SearchString", ViewBag.Search as string)
+            <input type="submit" value="Search" />
+        </p>
+    }
+    <table class="table  table-dark table-striped table-bordered mt-5">
+        <thead>
+            <tr>
+                <th>
+                    @Html.ActionLink("Name", "Index", new { sortOrder = ViewBag.NameSortParm, searchString = ViewBag.Search })
+                </th>
+
+                <th>
+                    @Html.ActionLink("Years", "Index", new { sortOrder = ViewBag.YearsSortParm, searchString = ViewBag.Search })
+                </th>
+                <th>
+                    @Html.ActionLink("Club", "Index", new { sortOrder = ViewBag.ClubSortParm, searchString = ViewBag.Search })
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>@Html.ActionLink(item.Name, "Edit", "Managers", new { id = item.Id }, null)</td>
+
+                    <td>@item.Years</td>
+                    <td>@item.Club.Name</td>
+
+                    <td>
+
+                        <button type="button" class="btn btn-secondary mr-3 mt-4">
+                            @Html.ActionLink("Delete", "Delete", routeValues: new { Id = item.Id })
+                        </button>
+
+
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+
+    @Html.PagedListPager(Model, page => Url.Action("Index",
+    new { page, sortOrder = ViewBag.CurrentSort, currentFilter = ViewBag.Search }))
+}
+

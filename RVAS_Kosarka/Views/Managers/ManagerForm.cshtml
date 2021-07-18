@@ -1,0 +1,44 @@
+﻿@model RVAS_Kosarka.ViewModels.ManagerFormViewmodel
+@{
+    ViewBag.Title = "ManagerForm";
+}
+
+<h2>New Manager</h2>
+
+@using (Html.BeginForm("Save", "Managers"))
+{
+    <div class="form-group">
+        @Html.LabelFor(m => m.Manager.Name)
+        @Html.TextBoxFor(m => m.Manager.Name, new { @class = "form-control" })
+        @Html.ValidationMessageFor(m => m.Manager.Name)
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(m => m.Manager.Years)
+        @Html.TextBoxFor(m => m.Manager.Years, new { @class = "form-control" })
+        @Html.ValidationMessageFor(m => m.Manager.Years)
+
+    </div>
+
+        
+
+    <div class="form-group">
+        @Html.LabelFor(m => m.Manager.Id)
+        @Html.DropDownListFor(m => m.Manager.Id, new SelectList(Model.Clubs, "Id", "Name"), "Select Club", new { @class = "form-control" })
+        @Html.ValidationMessageFor(m => m.Manager.Id)
+
+    </div>
+
+    
+    @Html.AntiForgeryToken()
+
+    <button type="submit" class="btn-primary btn">
+        Save
+    </button>
+}
+
+
+@section scripts{
+    @Scripts.Render("~/bundles/jqueryval")
+}
+

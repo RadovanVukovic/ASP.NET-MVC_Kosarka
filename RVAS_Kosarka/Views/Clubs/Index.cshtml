@@ -1,0 +1,83 @@
+﻿@model List<RVAS_Kosarka.Models.Club>
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>All Clubs</h2>
+<div style="margin-bottom:10px">
+    <button type="button" class="btn btn-secondary mr-3 mt-4">
+        @Html.ActionLink("Add New Club", "New")
+    </button>
+</div>
+
+<table id="clubs" class="table table-bordered table-hover table-dark table-striped ">
+    <thead>
+        <tr>
+            <th>Club Name</th>
+            <th>Founded</th>
+            <th>City</th>
+            <th>Delete</th>
+        </tr>
+    </thead>
+    <tbody>
+
+    </tbody>
+</table>
+
+@section scripts
+{
+    <script>
+        $(document).ready(function () {
+            var table = $("#clubs").DataTable({
+                ajax: {
+                    url: '/api/clubs',
+                    dataSrc: ""
+                },
+                columns: [
+                    {
+                        data: "name",                       
+                        render: function (data, type, club) {
+                            return "<a href='/clubs/edit/" + club.id + "'>" + club.name + "</a>";
+
+                        }
+                    },
+                    {
+                        data: "founded"
+                    },
+                    {
+                        data: "city"
+                    },
+                    {
+                        data: "id",
+                        render: function (data) {
+                            return "<button class='js-delete btn btn-secondary' data-club-id=" + data + ">Delete</button>";
+                        }
+                    }
+                ]
+            });
+
+
+            $("#clubs").on("click", ".js-delete", function () {
+                var button = $(this);
+
+                bootbox.confirm("Are you sure you want to delete this Club?", function (result) {
+                    if (result) {
+                        $.ajax({
+                            url: "/api/clubs/" + button.attr("data-club-id"),
+                            method: "DELETE",
+                            success: function () {
+                                table.row(button.parents("tr")).remove().draw();
+                            }
+                        });
+                    }
+                });
+            });
+        });
+    </script>
+}
+
+
+
+
+
+

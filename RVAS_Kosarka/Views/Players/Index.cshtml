@@ -1,0 +1,64 @@
+﻿@model List<RVAS_Kosarka.Models.Player>
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>All Players</h2>
+<div style="margin-bottom:10px">
+    <button type="button" class="btn btn-secondary mr-3 mt-4">
+        @Html.ActionLink("Add New Player", "New")
+    </button>
+</div>
+@if (!Model.Any())
+{
+    <p>We don't have any players yet. </p>
+}
+else
+{
+    <table  class="table  table-dark table-striped players table-bordered">
+        <thead>
+            <tr>
+                <th>Player</th>
+
+                <th>Height</th>
+                <th>Weight</th>
+                <th>Years</th>
+                <th>Club</th>
+                <th>Position</th>
+                <th>Delete Player</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>@Html.ActionLink(item.Name, "Edit", "Players", new { id = item.Id }, null)</td>
+
+                    <td>@item.Height m</td>
+                    <td>@item.Weight kg</td>
+                    <td>@item.Years</td>
+                    <td>@item.Club.Name</td>
+                    <td>@item.Position.Name</td>
+                    <td>
+
+                        <button type="button" class="btn btn-secondary mr-3 mt-4">
+                            @Html.ActionLink("Delete", "Delete", routeValues: new { Id = item.Id })
+                        </button>
+
+
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+
+@section scripts
+{
+    <script>
+        $(document).ready(function () {
+            $('.players').DataTable();
+        });
+    </script>
+
+}

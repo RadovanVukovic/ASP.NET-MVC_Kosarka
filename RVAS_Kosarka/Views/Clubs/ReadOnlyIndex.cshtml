@@ -1,0 +1,40 @@
+﻿@model List<RVAS_Kosarka.Models.Club>
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>All Clubs</h2>
+
+@if (!Model.Any())
+{
+    <p>We don't have any clubs yet. </p>
+}
+else
+{
+    <table class="table table-bordered table-hover table-dark table-striped ">
+        <thead>
+            <tr>
+                <th>Club Name</th>
+                <th>Founded</th>
+                <th>City</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>@item.Name</td>
+
+                    <td>@item.Founded</td>
+                    <td>@item.City</td>
+
+                    
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+
+
+
+

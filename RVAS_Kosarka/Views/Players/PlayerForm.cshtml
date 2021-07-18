@@ -1,0 +1,62 @@
+﻿@model RVAS_Kosarka.ViewModels.PlayerFormViewModel
+@{
+    ViewBag.Title = "PlayerForm";
+}
+
+<h2>New Player</h2>
+
+@using (Html.BeginForm("Save", "Players"))
+{
+    <div class="form-group">
+        @Html.LabelFor(m => m.Player.Name)
+        @Html.TextBoxFor(m => m.Player.Name, new { @class = "form-control" })
+        @Html.ValidationMessageFor(m => m.Player.Name)
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(m => m.Player.Height)
+        @Html.TextBoxFor(m => m.Player.Height, new { @class = "form-control" })
+        @Html.ValidationMessageFor(m => m.Player.Height)
+
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(m => m.Player.Weight)
+        @Html.TextBoxFor(m => m.Player.Weight, new { @class = "form-control" })
+        @Html.ValidationMessageFor(m => m.Player.Weight)
+
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(m => m.Player.Years)
+        @Html.TextBoxFor(m => m.Player.Years, new { @class = "form-control" })
+        @Html.ValidationMessageFor(m => m.Player.Years)
+
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(m => m.Player.ClubId)
+        @Html.DropDownListFor(m => m.Player.ClubId, new SelectList(Model.Clubs, "Id", "Name"), "Select Club", new { @class = "form-control" })
+        @Html.ValidationMessageFor(m => m.Player.ClubId)
+
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(m => m.Player.PositionId)
+        @Html.DropDownListFor(m => m.Player.PositionId, new SelectList(Model.Positions, "Id", "Name"), "Select Position", new { @class = "form-control" })
+        @Html.ValidationMessageFor(m => m.Player.PositionId)
+
+    </div>
+
+    @Html.HiddenFor(m => m.Player.Id) //ovo je bitno da stavis da bi prosledio id
+    @Html.AntiForgeryToken()
+
+    <button type="submit" class="btn-primary btn">
+        Save
+    </button>
+}
+
+
+@section scripts{
+    @Scripts.Render("~/bundles/jqueryval")
+}
